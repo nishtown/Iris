@@ -75,6 +75,21 @@ namespace Iris.Irc
             running = false;
         }
 
+        public void Join(string channel)
+        {
+            connection.SendLine("JOIN :" + channel);
+        }
+
+        public void Leave(string channel)
+        {
+            connection.SendLine("PART " + channel + " :o/");
+        }
+
+        public void Send(string recipient, string msg)
+        {
+            connection.SendLine("PRIVMSG " + recipient + " :" + msg);
+        }
+
         /// <summary>
         /// Dispatches the right events for the line.
         /// </summary>
