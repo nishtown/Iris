@@ -132,6 +132,11 @@ namespace Iris.Irc
             }
         }
 
+        public delegate void ConnectedEventHandler(Client sender);
+
+        public event ConnectedEventHandler Connected;
+
+
         public delegate void MessageEventHandler(Client sender, Message message);
 
         /// <summary>
@@ -146,7 +151,13 @@ namespace Iris.Irc
         protected void onMessage(Message message)
         {
             if (Message != null)
+            {
                 Message(this, message);
+                if (message.Line == ":" + this.Config.Nickname + " MODE " + this.Config.Nickname + " :+i")
+                {
+                    Connected(this);
+                }
+            }
         }
 
         public delegate void NoticeEventHandler(Client sender, Notice notice);

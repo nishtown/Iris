@@ -20,6 +20,7 @@ namespace Iris.ConsoleTesting
             Client client = new Client(ircConnection, new ClientConfig() { Nickname = "Nish|Iris", Password = "", UserMode = 0, Username = "Nishtown" });
             client.Message += (sender, line) => Console.WriteLine(line);
             client.PrivateMessage += client_PrivateMessage;
+            client.Connected += client_Connected;
 
             Thread clientThread = new Thread((ParameterizedThreadStart)((object delay) => client.Run((Action)delay)));
             clientThread.Name = "Client - Esper.net";
@@ -33,6 +34,11 @@ namespace Iris.ConsoleTesting
 
             Console.WriteLine("Threads should be stopping.");
             Console.ReadLine();
+        }
+
+        static void client_Connected(Client sender)
+        {
+            Console.WriteLine("Connected!");
         }
 
         static void client_PrivateMessage(Client sender, PrivateMessage privateMessage)
